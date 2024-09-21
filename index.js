@@ -1,12 +1,9 @@
-import evento from "./model/Eventos.js";
+import express from "express";
 
-const novoevento = new evento("evento x", "descrição x", "06/09/2024 14:43", "local x", 20.00, 200);
+const app =  express();
+const host = "127.0.0.1";
+const porta = 4000; 
 
-novoevento.incluir().then(() => {
-    console.log("evento incuido com sucesso!!!");
-}).catch((erro) => {
-    console.log("erro ao incluir evento!" + erro);
+app.listen(porta,host, () => {
+console.log(`Servidor Iniciado em http://${host}:${porta}`);
 });
-
-
-
