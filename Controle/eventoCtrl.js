@@ -101,10 +101,25 @@ export default class eventoctrl {
         }
     }
 
-    consulta(requisicao, resposta) {
-        resposta.status(200).json({
-            "Status": true,
-            "mensagem": "Consulta realizada com sucesso"
-        });
-    };
+    consulta(requisicao, resposta){
+        const termoBusca = requisicao.params.termoBusca;
+        if(!termoBusca){
+            termoBusca = "";
+        }
+
+        if (requisicao.method == "GET"){
+            const evento = eventos();
+            evento.consulta(termoBusca).then((evento) => {
+                return resposta.status(200).json({
+                    "Status": true,
+                    "ListaDeEventos": evento
+                });
+            }).catch((erro) => {
+                resposta.status(500).json({
+                    "Status": false,
+                    "mensagem": "Erro ao Consulta Evento: " + erro.message
+                });
+            });
+    }
+}
 }
