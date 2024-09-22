@@ -120,6 +120,11 @@ export default class eventoctrl {
                     "mensagem": "Erro ao Consulta Evento: " + erro.message
                 });
             });
+    } else {
+        resposta.status(405).json({
+            "Status": false,
+            "mensagem": "Método não permitido."
+        });
     }
 }
 }
