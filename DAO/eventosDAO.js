@@ -24,8 +24,9 @@ export default class eventoDAO {
     }
 
     async gravar(evento) {
+        let conexao;
         try {
-            const conexao = await conectar();
+            conexao = await conectar();
             const sql = `INSERT INTO eventos (nome, descricao, data_hora, local_evento, preco, ingressos) VALUES (?, ?, ?, ?, ?, ?);`;
             const parametros = [
                 evento.nome,
@@ -39,13 +40,16 @@ export default class eventoDAO {
         } catch (erro) {
             console.error("Erro ao incluir evento!", erro);
             throw erro;
+        } finally {
+            if (conexao) conexao.release();  
         }
     }
 
     async alterar(eventos) {
         if (eventos instanceof evento) {
-            const conexao = await conectar();
+            let conexao;
             try {
+                conexao = await conectar();
                 const sql = `UPDATE eventos SET nome=?, descricao=?, data_hora=?, local_evento=?, preco=?, ingressos=? WHERE id_eventos = ?;`;
                 const parametros = [
                     eventos.nome,
@@ -61,15 +65,16 @@ export default class eventoDAO {
                 console.error("Erro ao alterar evento!", erro);
                 throw erro;
             } finally {
-                await global.poolConexoes.releaseConnection(conexao);
+                if (conexao) conexao.release();  // Libera a conexão corretamente
             }
         }
     }
 
     async excluir(eventos) {
         if (eventos instanceof evento) {
-            const conexao = await conectar();
+            let conexao;
             try {
+                conexao = await conectar();
                 const sql = `DELETE FROM eventos WHERE id_eventos = ?;`;
                 const parametros = [eventos.id_eventos];
                 await conexao.execute(sql, parametros);
@@ -77,24 +82,25 @@ export default class eventoDAO {
                 console.error("Erro ao excluir evento!", erro);
                 throw erro;
             } finally {
-                await global.poolConexoes.releaseConnection(conexao);
+                if (conexao) conexao.release(); 
             }
         }
     }
 
     async consulta(termoBusca) {
-        let sql = "";
-        const parametros = [];
-
-        if (termoBusca) {
-            sql = `SELECT * FROM eventos WHERE id_eventos = ? ORDER BY nome;`;
-            parametros.push(termoBusca);
-        } else {
-            sql = `SELECT * FROM eventos ORDER BY nome;`;
-        }
-
-        const conexao = await conectar();
+        let conexao;
         try {
+            conexao = await conectar();
+            let sql = "";
+            const parametros = [];
+
+            if (termoBusca) {
+                sql = `SELECT * FROM eventos WHERE id_eventos = ? ORDER BY nome;`;
+                parametros.push(termoBusca);
+            } else {
+                sql = `SELECT * FROM eventos ORDER BY nome;`;
+            }
+
             const [registros] = await conexao.execute(sql, parametros);
             const listaEvento = registros.map(registro => new evento(
                 registro.id_eventos,
@@ -107,10 +113,10 @@ export default class eventoDAO {
             ));
             return listaEvento;
         } catch (erro) {
-            console.error("Erro ao consulta eventos!", erro);
+            console.error("Erro ao consultar eventos!", erro);
             throw erro;
         } finally {
-            await global.poolConexoes.releaseConnection(conexao);
+            if (conexao) conexao.release(); 
         }
     }
 }
