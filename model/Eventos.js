@@ -43,6 +43,16 @@ export default class eventos {
     Ingressos disponiveis: ${this.#Ingressos}   
     `
     }
+    toJSON(){
+        return {
+            nome: this.#nome_evento,
+            descricao: this.#descricao,
+            data_hora: this.#data_hora,
+            local: this.#local,
+            preco: this.#preco,
+            ingressos: this.#Ingressos
+        }
+    }
 
     async incluir() {
         const eveDao = new eventoDAO();
