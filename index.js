@@ -3,7 +3,7 @@ import rota_evento from "./Rotas/rota_evento.js";
 
 const app =  express();
 const host = "127.0.0.1";
-const porta = 80; 
+const porta = 4000; 
 
 
 app.use(express.json());
