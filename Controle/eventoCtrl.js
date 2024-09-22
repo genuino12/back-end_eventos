@@ -1,84 +1,110 @@
 import eventos from "../model/Eventos.js";
 
-export default class eventoctrl{
-    gravar(requisicao,resposta){ 
-        if(requisicao.method == "POST" && requisicao.is("application/json")){
-            const dados = requisicao.body;
-            const nome_evento = dados.nome_evento;
-            const descricao = dados.descricao;
-            const data_hora = dados.data_hora;
-            const local = dados.local;
-            const preco = dados.preco;
-            const ingressos = dados.ingressos;
+export default class eventoctrl {
 
-            if(nome_evento && descricao && data_hora && local && preco && ingressos){
-                const evento = new eventos(nome_evento,descricao,data_hora,local,preco,ingressos);
+    gravar(requisicao, resposta) {
+        if (requisicao.method == "POST" && requisicao.is("application/json")) {
+            const dados = requisicao.body;
+            const { nome_evento, descricao, data_hora, local, preco, ingressos } = dados;
+
+            if (nome_evento && descricao && data_hora && local && preco && ingressos) {
+                const evento = new eventos(nome_evento, descricao, data_hora, local, preco, ingressos);
 
                 evento.incluir().then(() => {
                     resposta.status(201).json({
-                 "Status": true,
-                "mensagem": "Evento Incluído com Sucesso"
-                })
+                        "Status": true,
+                        "mensagem": "Evento Incluído com Sucesso"
+                    });
                 }).catch((erro) => {
                     resposta.status(500).json({
-                "Status": false,
-                "mensagem": "Erro ao Incluir Evento" + erro.message
-                    })
+                        "Status": false,
+                        "mensagem": "Erro ao Incluir Evento: " + erro.message
+                    });
+                });
+            } else {
+                resposta.status(400).json({
+                    "Status": false,
+                    "mensagem": "Requisição inválida, informe todos os dados do evento."
                 });
             }
-        }else{
+        } else {
             resposta.status(405).json({
                 "Status": false,
-                "mensagem": "Requisição Invalida, informe todos dados do evento"
-            })
+                "mensagem": "Método não permitido."
+            });
         }
     };
-}
 
-    alterar(requisicao,resposta){
-        if(requisicao.method == "PUT" || requisicao.method == "PATCH" && requisicao.is("application/json")){
+    alterar(requisicao, resposta) {
+        if ((requisicao.method == "PUT" || requisicao.method == "PATCH") && requisicao.is("application/json")) {
             const dados = requisicao.body;
-            const nome_evento = dados.nome_evento;
-            const descricao = dados.descricao;
-            const data_hora = dados.data_hora;
-            const local = dados.local;
-            const preco = dados.preco;
-            const ingressos = dados.ingressos;
+            const { nome_evento, descricao, data_hora, local, preco, ingressos } = dados;
 
-            if(nome_evento && descricao && data_hora && local && preco && ingressos){
-                const evento = new eventos(nome_evento,descricao,data_hora,local,preco,ingressos);
+            if (nome_evento && descricao && data_hora && local && preco && ingressos) {
+                const evento = new eventos(nome_evento, descricao, data_hora, local, preco, ingressos);
 
                 evento.alterar().then(() => {
                     resposta.status(201).json({
-                 "Status": true,
-                "mensagem": "Evento alterado com Sucesso"
+                        "Status": true,
+                        "mensagem": "Evento alterado com sucesso"
                     });
-            }).catch((erro) => {
-                resposta.status(500).json({
-            "Status": false,
-            "mensagem": "Erro ao Incluir Evento" + erro.message
-                })
+                }).catch((erro) => {
+                    resposta.status(500).json({
+                        "Status": false,
+                        "mensagem": "Erro ao alterar evento: " + erro.message
+                    });
+                });
+            } else {
+                resposta.status(400).json({
+                    "Status": false,
+                    "mensagem": "Requisição inválida, informe todos os dados do evento."
+                });
+            }
+        } else {
+            resposta.status(405).json({
+                "Status": false,
+                "mensagem": "Método não permitido."
             });
         }
-        else{
-            resposta.status(400).json({
-                "Status": false,
-                "mensagem": "Requisição Invalida, informe todos dados do evento"
-        });
-        }
-    }else{
-        resposta.status(405).json({
-            "Status": false,
-            "mensagem": "Requisição Invalida, informe todos dados do evento"
-        });
-    }
-}
-    excluir(requisicao,resposta){
-        if(requisicao.method == "Delete" && requisicao.is("application/json")){
+    };
+
+    excluir(requisicao, resposta) {
+        if (requisicao.method == "DELETE" && requisicao.is("application/json")) {
             const dados = requisicao.body;
-            const codigo = dados.nome_evento;
+            const id_eventos = dados.id_eventos;
+
+            if (id_eventos) {
+                const evento = new eventos(id_eventos);
+
+                evento.excluir().then(() => {
+                    resposta.status(201).json({
+                        "Status": true,
+                        "mensagem": "Evento excluído com sucesso"
+                    });
+                }).catch((erro) => {
+                    resposta.status(500).json({
+                        "Status": false,
+                        "mensagem": "Erro ao excluir evento: " + erro.message
+                    });
+                });
+            } else {
+                resposta.status(400).json({
+                    "Status": false,
+                    "mensagem": "Requisição inválida, informe o ID do evento."
+                });
+            }
+        } else {
+            resposta.status(405).json({
+                "Status": false,
+                "mensagem": "Método não permitido."
+            });
+        }
+    }
+
+    consulta(requisicao, resposta) {
+        resposta.status(200).json({
+            "Status": true,
+            "mensagem": "Consulta realizada com sucesso"
+        });
     };
 }
-
-    consulta(requisicao,resposta){};
-   
