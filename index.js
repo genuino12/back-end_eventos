@@ -6,7 +6,7 @@ const porta = 4000;
 
 
 app.use(express.json());
-app.use('/evetno', ???????);
+app.use('/evetno',);
 
 app.listen(porta,host, () => {
 console.log(`Servidor Iniciado em https://${host}:${porta}`);
