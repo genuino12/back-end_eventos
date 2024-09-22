@@ -101,14 +101,14 @@ export default class eventoctrl {
         }
     }
 
-    consulta(requisicao, resposta){
-        const termoBusca = requisicao.params.termoBusca;
+    consultar(requisicao, resposta){
+        let termoBusca = requisicao.params.termoBusca;
         if(!termoBusca){
             termoBusca = "";
         }
 
         if (requisicao.method == "GET"){
-            const evento = eventos();
+            const evento = new eventos();
             evento.consulta(termoBusca).then((evento) => {
                 return resposta.status(200).json({
                     "Status": true,

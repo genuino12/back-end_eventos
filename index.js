@@ -10,5 +10,5 @@ app.use(express.json());
 app.use('/evento', rota_evento);
 
 app.listen(porta,host, () => {
-console.log(`Servidor Iniciado em https://${host}:${porta}`);
+console.log(`Servidor Iniciado em http://${host}:${porta}`);
 });
