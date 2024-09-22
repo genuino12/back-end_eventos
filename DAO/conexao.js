@@ -16,7 +16,7 @@ export default async function conectar() {
         });
     }
 
-    // Obtém uma conexão do pool
+    
     const connection = await global.poolConexões.getConnection();
 
     return connection;
