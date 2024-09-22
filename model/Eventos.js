@@ -69,8 +69,8 @@ export default class eventos {
         await eveDao.excluir(this);
     }
 
-    async consultar(termoBusca) {
+    async consulta(termoBusca) {
         const eveDao = new eventoDAO();
-        return await eveDao.consultar(termoBusca);
+        return await eveDao.consulta(termoBusca);
     }
 }

@@ -105,7 +105,7 @@ export default class eventoctrl {
         const termoBusca = requisicao.params.termoBusca || "";
         if (requisicao.method == "GET") {
             const evento = new eventos(); 
-            evento.consultar(termoBusca).then((eventos) => {
+            evento.consulta(termoBusca).then((eventos) => {
                 return resposta.status(200).json({
                     "Status": true,
                     "ListaDeEventos": eventos
@@ -113,7 +113,7 @@ export default class eventoctrl {
             }).catch((erro) => {
                 resposta.status(500).json({
                     "Status": false,
-                    "mensagem": "Erro ao consultar evento: " + erro.message
+                    "mensagem": "Erro ao consulta evento: " + erro.message
                 });
             });
         } else {
