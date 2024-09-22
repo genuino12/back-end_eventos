@@ -2,7 +2,7 @@ import express from "express";
 import rota_evento from "./Rotas/rota_evento.js";
 
 const app =  express();
-const host = "127.0.0.1";
+const host = "000.0.0.0";
 const porta = 4000; 
 
 
