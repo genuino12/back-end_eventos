@@ -101,30 +101,26 @@ export default class eventoctrl {
         }
     }
 
-    consultar(requisicao, resposta){
-        let termoBusca = requisicao.params.termoBusca;
-        if(!termoBusca){
-            termoBusca = "";
-        }
-
-        if (requisicao.method == "GET"){
-            const evento = new eventos();
-            evento.consulta(termoBusca).then((evento) => {
+    consulta(requisicao, resposta) {
+        const termoBusca = requisicao.params.termoBusca || "";
+        if (requisicao.method == "GET") {
+            const evento = new eventos(); 
+            evento.consultar(termoBusca).then((eventos) => {
                 return resposta.status(200).json({
                     "Status": true,
-                    "ListaDeEventos": evento
+                    "ListaDeEventos": eventos
                 });
             }).catch((erro) => {
                 resposta.status(500).json({
                     "Status": false,
-                    "mensagem": "Erro ao Consulta Evento: " + erro.message
+                    "mensagem": "Erro ao consultar evento: " + erro.message
                 });
             });
-    } else {
-        resposta.status(405).json({
-            "Status": false,
-            "mensagem": "Método não permitido."
-        });
+        } else {
+            resposta.status(405).json({
+                "Status": false,
+                "mensagem": "Método não permitido."
+            });
+        }
     }
-}
-}
+}    

@@ -82,7 +82,7 @@ export default class eventoDAO {
         }
     }
 
-    async consultar(termoBusca) {
+    async consulta(termoBusca) {
         let sql = "";
         const parametros = [];
 
