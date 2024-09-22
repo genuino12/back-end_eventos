@@ -107,7 +107,7 @@ export default class eventoDAO {
             ));
             return listaEvento;
         } catch (erro) {
-            console.error("Erro ao consultar eventos!", erro);
+            console.error("Erro ao consulta eventos!", erro);
             throw erro;
         } finally {
             await global.poolConexoes.releaseConnection(conexao);
