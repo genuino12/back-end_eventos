@@ -7,14 +7,17 @@ export default class eventoDAO {
     async init() {
         try {
             const conexao = await conectar();
-            const sql = `CREATE TABLE IF NOT EXISTS eventos (
-                id_eventos INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-                nome VARCHAR(100) NOT NULL,
-                descricao VARCHAR(200) NOT NULL,
-                data_hora DATETIME NOT NULL,
-                local_evento VARCHAR(100) NOT NULL,
-                preco DECIMAL(10,2) NOT NULL,
-                ingressos INT NOT NULL
+            const sql = `CREATE TABLE eventos (
+    id_eventos INT(11) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    descricao VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    data_hora DATETIME NOT NULL,
+    local_evento VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    ingressos INT(11) NOT NULL,
+    PRIMARY KEY (id_eventos)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
             )`;
             await conexao.execute(sql);
             console.log("Banco de dados iniciado com sucesso!");
@@ -55,7 +58,7 @@ export default class eventoDAO {
                     eventos.nome,
                     eventos.descricao,
                     eventos.data_hora,
-                    eventos.local,
+                    eventos.local_evento,
                     eventos.preco,
                     eventos.ingressos,
                     eventos.id_eventos
