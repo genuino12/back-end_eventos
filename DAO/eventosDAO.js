@@ -35,7 +35,7 @@ export default class eventoDAO {
                 evento.nome,
                 evento.descricao,
                 evento.data_hora,
-                evento.local,
+                evento.local_evento,
                 evento.preco,
                 evento.ingressos
             ];
