@@ -1,18 +1,18 @@
 import partidoDAO from "../DAO/cadastroDAO.js";
 
 export default class Partido {
-    #nome_partido;
+    #nome;
     #sigla;
     #descricao;
 
-    constructor(nome_partido, sigla, descricao) {
-        this.#nome_partido = nome_partido;
+    constructor(nome, sigla, descricao) {
+        this.#nome = nome_partido;
         this.#sigla = sigla;
         this.#descricao = descricao;
     }
 
     get nome_partido() {
-        return this.#nome_partido;
+        return this.#nome;
     }
 
     get sigla() {
@@ -24,7 +24,7 @@ export default class Partido {
     }
 
     toString() {
-        return `Nome do Partido: ${this.#nome_partido}
+        return `Nome do Partido: ${this.#nome}
     Sigla: ${this.#sigla}
     Descrição: ${this.#descricao}
     `;
@@ -32,7 +32,7 @@ export default class Partido {
 
     toJSON() {
         return {
-            nome_partido: this.#nome_partido,
+            nome_partido: this.#nome,
             sigla: this.#sigla,
             descricao: this.#descricao
         };
@@ -42,7 +42,7 @@ export default class Partido {
         const partDao = new partidoDAO();
 
         const partidoData = {
-            nome_partido: this.#nome_partido,
+            nome_partido: this.#nome,
             sigla: this.#sigla,
             descricao: this.#descricao
         };
