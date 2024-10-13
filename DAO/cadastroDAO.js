@@ -1,6 +1,7 @@
 import conectar from "./conexao.js";
-import Partido from "../model/Partido.js"; // Supondo que você tenha um modelo para Partido
-import Candidato from "../model/Candidato.js"; // Supondo que você tenha um modelo para Candidato
+import Partido from "../model/Partido.js"; 
+import Candidato from "../model/Candidato.js"; 
+import CadastroPessoa from "../model/CadastroPessoa.js";
 
 export default class CadastroDAO {
     constructor() {}
@@ -20,16 +21,28 @@ export default class CadastroDAO {
 
             // Criação da tabela para candidatos
             const sqlCandidatos = `CREATE TABLE candidatos (
-                id_candidato INT(11) NOT NULL AUTO_INCREMENT,
-                nome VARCHAR(100) NOT NULL,
-                id_partido INT(11) NOT NULL,
-                numero_candidato INT(11) NOT NULL,
-                PRIMARY KEY (id_candidato),
-                FOREIGN KEY (id_partido) REFERENCES partidos(id_partido)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;`;
+    id_candidato INT(11) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    id_partido INT(11) NOT NULL,
+    numero_candidato INT(11) NOT NULL,
+    PRIMARY KEY (id_candidato),
+    FOREIGN KEY (id_partido) REFERENCES partidos(id_partido)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+`;
+const sqlCadastroPessoas =`CREATE TABLE pessoas (
+    id_pessoa INT(11) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(11) NOT NULL UNIQUE,
+    telefone VARCHAR(15) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id_pessoa)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci`;
+
 
             await conexao.execute(sqlPartidos);
             await conexao.execute(sqlCandidatos);
+            await conexao.execute(sqlCadastroPessoas);
 
             console.log("Tabelas de partidos e candidatos criadas com sucesso!");
         } catch (erro) {
