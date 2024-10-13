@@ -81,6 +81,23 @@ const sqlCadastroPessoas =`CREATE TABLE pessoas (
             if (conexao) conexao.release();
         }
     }
+    async gravarCadastroPessoa(pessoa) {
+        let conexao;
+        try {
+            conexao = await conectar();
+            const sql = `INSERT INTO pessoas (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?);`;
+           
+            const parametros = [pessoa.nome, pessoa.cpf, pessoa.telefone, pessoa.email, pessoa.senha];
+            await conexao.execute(sql, parametros);
+        } catch (erro) {
+            console.error("Erro ao incluir pessoa!", erro);
+            throw erro; 
+        } finally {
+            if (conexao) conexao.release(); 
+        }
+    }
+    
+
 
     // Método para alterar um partido
     async alterarPartido(partido) {
@@ -113,7 +130,22 @@ const sqlCadastroPessoas =`CREATE TABLE pessoas (
             if (conexao) conexao.release();
         }
     }
-
+    //alterar pessoa
+    async alterarCadastroPessoa(pessoa) {
+        let conexao;
+        try {
+            conexao = await conectar();
+            const sql = `UPDATE pessoas SET nome = ?, cpf = ?, telefone = ?, email = ?, senha = ? WHERE id_pessoa = ?;`;
+            const parametros = [pessoa.nome, pessoa.cpf, pessoa.telefone, pessoa.email, pessoa.senha, pessoa.id_pessoa];
+            await conexao.execute(sql, parametros);
+        } catch (erro) {
+            console.error("Erro ao alterar pessoa!", erro);
+            throw erro;
+        } finally {
+            if (conexao) conexao.release();
+        }
+    }
+    
     // Método para excluir um partido
     async excluirPartido(partido) {
         let conexao;
@@ -145,6 +177,21 @@ const sqlCadastroPessoas =`CREATE TABLE pessoas (
             if (conexao) conexao.release();
         }
     }
+    //excluir pessoa
+    async excluirPessoa(id) {
+        let conexao;
+        try {
+            conexao = await conectar();
+            const sql = `DELETE FROM pessoas WHERE id_pessoa = ?;`;
+            await conexao.execute(sql, [id]);
+        } catch (erro) {
+            console.error("Erro ao excluir pessoa!", erro);
+            throw erro;
+        } finally {
+            if (conexao) conexao.release();
+        }
+    }
+    
 
     // Método para consultar partidos
     async consultaPartidos(termoBusca) {
@@ -205,4 +252,34 @@ const sqlCadastroPessoas =`CREATE TABLE pessoas (
             if (conexao) conexao.release();
         }
     }
+    async consultarPessoas() {
+        let conexao;
+        try {
+            conexao = await conectar();
+            const sql = `SELECT * FROM pessoas;`;
+            const [resultados] = await conexao.execute(sql);
+            return resultados; 
+        } catch (erro) {
+            console.error("Erro ao consultar pessoas!", erro);
+            throw erro;
+        } finally {
+            if (conexao) conexao.release();
+        }
+    }
+    //consulta pessoa
+    async consultarPessoaPorId(id) {
+        let conexao;
+        try {
+            conexao = await conectar();
+            const sql = `SELECT * FROM pessoas WHERE id_pessoa = ?;`;
+            const [resultados] = await conexao.execute(sql, [id]);
+            return resultados[0]; 
+        } catch (erro) {
+            console.error("Erro ao consultar pessoa!", erro);
+            throw erro;
+        } finally {
+            if (conexao) conexao.release();
+        }
+    }
+    
 }
