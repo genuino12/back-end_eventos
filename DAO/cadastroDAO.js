@@ -258,7 +258,7 @@ const sqlCadastroPessoas =`CREATE TABLE pessoas (
             conexao = await conectar();
             const sql = `SELECT * FROM pessoas;`;
             const [resultados] = await conexao.execute(sql);
-            return resultados; 
+            return resultados; // Retorna todos os registros
         } catch (erro) {
             console.error("Erro ao consultar pessoas!", erro);
             throw erro;
