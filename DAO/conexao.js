@@ -8,7 +8,7 @@ export default async function conectar() {
             port: 3306,
             user: 'root',
             password: '',
-            database: 'eventos_db',
+            database: 'cadastro_db',
             waitForConnections: true,
             connectionLimit: 10, 
             queueLimit: 0, 

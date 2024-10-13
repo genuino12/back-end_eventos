@@ -1,4 +1,4 @@
-import candidatoDAO from "../DAO/cadastroDAO.js"; // Atualizar o caminho se necessário
+import candidatoDAO from "../DAO/cadastroDAO.js"; 
 
 export default class Candidato {
     #nomeCandidato;
